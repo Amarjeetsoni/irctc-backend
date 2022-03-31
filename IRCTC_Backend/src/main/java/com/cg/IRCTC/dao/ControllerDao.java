@@ -7,11 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import com.cg.IRCTC.entity.Coaches;
 import com.cg.IRCTC.entity.Train;
+import com.cg.IRCTC.entity.UsersDetails;
 
 @Repository
 public class ControllerDao {
 	
 	List<Train> train = new ArrayList<>();
+	List<UsersDetails> users = new ArrayList<>();
 	
 	public boolean addTrain(String name, String number) {
 		for(int i = 0; i < train.size(); i++) {
@@ -171,4 +173,22 @@ public class ControllerDao {
 		return val;
 	}
 	
+	public boolean setPasswordForAdmin(String user, String password) {
+		users.add(new UsersDetails("admin", user, password));
+		return true;
+	}
+	
+	public boolean setPasswordForUser(String user, String password) {
+		users.add(new UsersDetails("user", user, password));
+		return true;
+	}
+	
+	public boolean login(String role, String user, String password) {
+		for(UsersDetails ud: users) {
+			if(ud.getRole().equals(role) && ud.getUserName().equals(user) && ud.getPassword().equals(password)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
